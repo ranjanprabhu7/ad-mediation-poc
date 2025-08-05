@@ -1,68 +1,65 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>VAST Ad Test</title>
-    <meta charset="UTF-8" />
-    <link
-      href="https://unpkg.com/video.js/dist/video-js.min.css"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        margin: 0;
-        padding: 20px;
-        font-family: sans-serif;
-      }
-      .video-js {
-        width: 640px;
-        height: 360px;
-      }
-    </style>
-  </head>
-  <body>
-    <h2>🎥 VAST Ad Player</h2>
-    <video
-      id="videoPlayer"
-      class="video-js vjs-default-skin"
-      controls
-      muted
-      playsinline
-      preload="auto"
-    >
-      <source
-        src="https://storage.googleapis.com/interactive-media-ads/media/big_buck_bunny.mp4"
-        type="video/mp4"
-      />
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Video.js VAST Ad Demo</title>
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.9.0/dist/videojs.ads.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.9.0/dist/videojs.ima.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #000;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    #content {
+      max-width: 800px;
+      margin: auto;
+    }
+    video {
+      width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <div id="content">
+    <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360">
+      <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
     </video>
+  </div>
 
-    <script src="https://unpkg.com/video.js/dist/video.min.js"></script>
-    <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-    <script src="https://unpkg.com/videojs-contrib-ads@6.8.0/dist/videojs-contrib-ads.min.js"></script>
-    <script src="https://unpkg.com/videojs-ima@1.9.1/dist/videojs.ima.min.js"></script>
+  <script>
+    const player = videojs('videoPlayer');
 
-    <script>
-      const player = videojs("videoPlayer");
+    player.ima({
+      adTagUrl:
+        "https://pubads.g.doubleclick.net/gampad/ads?" +
+        "iu=/21775744923/external/single_ad_samples&" +
+        "sz=640x480&" +
+        "cust_params=sample_ct%3Dskippablelinear&" +
+        "gdfp_req=1&" +
+        "output=vast&" +
+        "unviewed_position_start=1&" +
+        "env=vp&" +
+        "impl=s&" +
+        "correlator=" +
+        Date.now()
+    });
 
-      player.ready(function () {
-        player.ima({
-          adTagUrl:
-            "https://pubads.g.doubleclick.net/gampad/ads?" +
-            "iu=/21775744923/external/single_ad_samples&" +
-            "sz=640x480&" +
-            "cust_params=deployment%3Ddevsite%26sample_ct%3Dlinear&" +
-            "gdfp_req=1&" +
-            "output=vast&" +
-            "unviewed_position_start=1&" +
-            "env=vp&" +
-            "impl=s&" +
-            "correlator=" +
-            Date.now()
-        });
-
-        player.ima.initializeAdDisplayContainer();
-        player.ima.requestAds();
-        player.play();
-      });
-    </script>
-  </body>
+    player.ready(function () {
+      player.ima.initializeAdDisplayContainer();
+      player.ima.requestAds();
+      player.play();
+    });
+  </script>
+</body>
 </html>
